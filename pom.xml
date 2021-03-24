@@ -43,6 +43,7 @@
                 <enabled>false</enabled>
             </snapshots>
         </repository>
+
     </repositories>
 
     <pluginRepositories>
@@ -104,6 +105,7 @@
         <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-spring-boot-starter</artifactId>
+            <version>14.5.1</version>
             <exclusions>
                 <!-- Excluding so that webjars are not included. -->
                 <exclusion>
@@ -173,6 +175,12 @@
             <groupId>com.github.appreciated</groupId>
             <artifactId>apexcharts</artifactId>
             <version>2.0.0.beta11</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-spring</artifactId>
+            <version>12.3.3</version>
         </dependency>
 
 
