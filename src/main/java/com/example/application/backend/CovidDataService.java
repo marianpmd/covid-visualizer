@@ -54,8 +54,6 @@ public class CovidDataService {
             }
 
 
-            /*int k = i;*/
-
             while (recordList.get(i).get("Country/Region").equals(recordList.get(i + 1).get("Country/Region"))) {
                 confirmed += Integer.parseInt(recordList.get(i + 1).get(recordsConfirmed.getHeaderNames().size() - 1));
                 deaths = Integer.parseInt(recordDeathList.get(i + 1).get(recordsConfirmed.getHeaderNames().size() - 1));
@@ -70,7 +68,7 @@ public class CovidDataService {
             covidData.setConfirmed(confirmed);
             covidData.setDeaths(deaths);
             covidData.setRecovered(recovered);
-            System.out.println(covidData.toString());
+            /*System.out.println(covidData.toString());*/
             newStats.add(covidData);
         }
 

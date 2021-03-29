@@ -2,6 +2,7 @@ package com.example.application.views.main;
 
 
 import com.example.application.backend.CovidDataService;
+import com.example.application.backend.CovidRomaniaService;
 import com.github.appreciated.apexcharts.ApexCharts;
 import com.github.appreciated.apexcharts.ApexChartsBuilder;
 import com.github.appreciated.apexcharts.config.builder.*;
@@ -30,9 +31,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class MainView extends VerticalLayout {
 
     private VerticalLayout verticalLayout = new VerticalLayout();
-    private final Label title = new Label("Covid Donut Chart");
+    private final Label title = new Label("Global Donut Chart");
 
-    public MainView(@Autowired CovidDataService data) {
+    public MainView(@Autowired CovidDataService data ,
+                    @Autowired CovidRomaniaService romaniaData) {
         setSizeFull();
         setDefaultHorizontalComponentAlignment(Alignment.CENTER);
 
@@ -41,8 +43,9 @@ public class MainView extends VerticalLayout {
         ComboBox<String> countries = new ComboBox<>();
         countries.setPlaceholder("Pick a country ... ");
 
-        countries.setItems(data.getCountryNames());
+        countries.setItems(data.getCountryNames().stream().filter(country -> !country.equals("Romania")));
         HorizontalLayout temp = new HorizontalLayout();
+        temp.setSizeFull();
 
 
         countries.addValueChangeListener(listener ->
@@ -53,11 +56,37 @@ public class MainView extends VerticalLayout {
 
         verticalLayout.add(countries, temp);
 
-        add(title, verticalLayout);
+
+
+        add(title, verticalLayout , new Label("Romanian Recent Data"));
+        add(romanianTotalData(romaniaData));
 
 
     }
 
+    private ApexCharts romanianTotalData(CovidRomaniaService data){
+        ApexCharts chart = ApexChartsBuilder.get()
+                .withChart(ChartBuilder.get()
+                        .withType(Type.donut)
+                        .withHeight("300px")
+                        .withZoom(ZoomBuilder.get()
+                                .withEnabled(true)
+                                .build())
+                        .build())
+                .withColors("#e8aa35", "#FF0000", "#00FF00")
+                .withLegend(LegendBuilder.get()
+                        .withWidth(200.0)
+                        .withShow(true)
+                        .build())
+                .build();
+
+
+        chart.setLabels("Confirmed", "Deaths", "Recovered");
+
+        chart.setSeries(Double.valueOf(data.getTotalCases()), Double.valueOf(data.getTotalDeaths()), Double.valueOf(data.getTotalRecovered()));
+        return chart;
+
+    }
 
     private void updateChart(HorizontalLayout temp, String value, CovidDataService data) {
         temp.removeAll();
@@ -66,13 +95,14 @@ public class MainView extends VerticalLayout {
         ApexCharts chart = ApexChartsBuilder.get()
                 .withChart(ChartBuilder.get()
                         .withType(Type.donut)
-                        .withHeight("600px")
+                        .withHeight("300px")
                         .withZoom(ZoomBuilder.get()
                                 .withEnabled(true)
                                 .build())
                         .build())
                 .withColors("#e8aa35", "#FF0000", "#00FF00")
                 .withLegend(LegendBuilder.get()
+                        .withWidth(200.0)
                         .withShow(true)
                         .build())
                 .build();
@@ -85,6 +115,7 @@ public class MainView extends VerticalLayout {
                 .build());
         chart.setSeries(Double.valueOf(data.getAllStats().get(index).getConfirmed()), Double.valueOf(data.getAllStats().get(index).getDeaths()), Double.valueOf(data.getAllStats().get(index).getRecovered()));
         temp.add(chart);
+        temp.setDefaultVerticalComponentAlignment(Alignment.CENTER);
 
         verticalLayout.add(temp);
     }
