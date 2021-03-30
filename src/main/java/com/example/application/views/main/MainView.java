@@ -124,7 +124,6 @@ public class MainView extends VerticalLayout {
         details.addContent(vl);
 
         VerticalLayout footer = new VerticalLayout();
-        footer.setDefaultHorizontalComponentAlignment(Alignment.CENTER);
         footer.add(details);
 
         footer.setMinHeight("120px");
