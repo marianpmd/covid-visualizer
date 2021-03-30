@@ -31,10 +31,10 @@ public class CovidRomaniaService {
     }
 
     public CovidRomaniaData getRecentDateData(){
-        Optional<CovidRomaniaData> recent = data.stream()
-                .filter(rona -> rona.getReportingDate().equals(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))))
-                .findFirst();
-        return recent.orElseThrow();
+        return data.get(0);
+    }
+    public String latestReportedDate(){
+        return data.get(0).getReportingDate();
     }
 
     public int getTotalDeaths(){
@@ -49,6 +49,11 @@ public class CovidRomaniaService {
     public int getTotalRecovered(){
         CovidRomaniaData recent = getRecentDateData();
         return recent.getTotalRecovered();
+    }
+
+    public String getTotalPopulation(){
+        CovidRomaniaData recent = getRecentDateData();
+        return recent.getRomaniaPopulation2020();
     }
 
 
