@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @SpringComponent
 @UIScope
@@ -54,6 +55,23 @@ public class CovidRomaniaService {
     public String getTotalPopulation(){
         CovidRomaniaData recent = getRecentDateData();
         return recent.getRomaniaPopulation2020();
+    }
+
+    public List<String> getCountyNames(){
+        CovidRomaniaData recent = getRecentDateData();
+        return recent.getCountyData().stream()
+                .map(CountyData::getCountyName)
+                .collect(Collectors.toList());
+    }
+
+    public CountyData getCountyByName(String name){
+        CovidRomaniaData recent = getRecentDateData();
+        for (CountyData countyData : recent.getCountyData()){
+            if (countyData.getCountyName().equals(name)){
+                return countyData;
+            }
+        }
+        return null;
     }
 
 
