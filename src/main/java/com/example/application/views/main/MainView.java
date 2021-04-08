@@ -6,26 +6,27 @@ import com.example.application.backend.CovidDataService;
 import com.example.application.backend.CovidRomaniaService;
 import com.github.appreciated.apexcharts.ApexCharts;
 import com.github.appreciated.apexcharts.ApexChartsBuilder;
-import com.github.appreciated.apexcharts.config.builder.*;
+import com.github.appreciated.apexcharts.config.builder.ChartBuilder;
+import com.github.appreciated.apexcharts.config.builder.LegendBuilder;
+import com.github.appreciated.apexcharts.config.builder.TitleSubtitleBuilder;
 import com.github.appreciated.apexcharts.config.chart.Type;
 import com.github.appreciated.apexcharts.config.chart.builder.ZoomBuilder;
-import com.github.appreciated.apexcharts.config.legend.HorizontalAlign;
 import com.github.appreciated.apexcharts.config.subtitle.Align;
 import com.github.appreciated.apexcharts.config.subtitle.builder.StyleBuilder;
-import com.github.appreciated.apexcharts.config.tooltip.Z;
-import com.github.appreciated.apexcharts.config.tooltip.builder.FixedBuilder;
-import com.github.appreciated.apexcharts.config.tooltip.builder.ZBuilder;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.details.Details;
 import com.vaadin.flow.component.html.Anchor;
-import com.vaadin.flow.component.html.Footer;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.page.LoadingIndicatorConfiguration;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.InitialPageSettings;
 import com.vaadin.flow.server.PWA;
+import com.vaadin.flow.server.PageConfigurator;
 import com.vaadin.flow.spring.annotation.UIScope;
 import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.lumo.Lumo;
@@ -38,7 +39,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 @CssImport("./views/main/main-view.css")
 @Route("")
 @UIScope
-public class MainView extends VerticalLayout {
+public class MainView extends VerticalLayout implements PageConfigurator {
+
 
     private VerticalLayout verticalLayout = new VerticalLayout();
     private VerticalLayout verticalLayoutCounty = new VerticalLayout();
@@ -129,7 +131,9 @@ public class MainView extends VerticalLayout {
 
         footer.setMinHeight("120px");
         add(footer);
-
+        //addClassName("centered-content");
+        UI.getCurrent().getPage().executeJs(
+                "document.querySelector('#splash-screen').classList.add('loaded')");
     }
 
     private void updateCountyChart(VerticalLayout tempCounty, String value, CovidRomaniaService romaniaData) {
@@ -307,4 +311,10 @@ public class MainView extends VerticalLayout {
     }
 
 
+    //when more loading is needed
+    @Override
+    public void configurePage(InitialPageSettings initialPageSettings) {
+       // initialPageSettings.addInlineFromFile("splash-screen.html",InitialPageSettings.WrapMode.NONE);
+
+    }
 }

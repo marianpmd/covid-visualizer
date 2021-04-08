@@ -189,6 +189,12 @@
             <version>2.11.2</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.vaadin.leif</groupId>
+            <artifactId>splashscreen</artifactId>
+            <version>0.3.1</version>
+        </dependency>
+
 
     </dependencies>
 

@@ -7,6 +7,8 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.vaadin.artur.helpers.LaunchUtil;
 
+import javax.servlet.ServletRequest;
+
 /**
  * The entry point of the Spring Boot application.
  */
@@ -17,6 +19,7 @@ public class Application extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
         LaunchUtil.launchBrowserInDevelopmentMode(SpringApplication.run(Application.class, args));
+
     }
 
 }
