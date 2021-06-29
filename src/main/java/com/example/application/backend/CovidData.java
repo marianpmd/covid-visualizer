@@ -2,7 +2,6 @@ package com.example.application.backend;
 
 import org.springframework.stereotype.Component;
 
-@Component
 public class CovidData {
 
     private String country;

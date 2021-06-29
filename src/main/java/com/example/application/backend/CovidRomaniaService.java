@@ -17,6 +17,7 @@ public class CovidRomaniaService {
     private List<CovidRomaniaData> data;
     private CovidRomaniaData recent;
 
+    //TODO : This method runs for each request which is bad , it may be better to persist the data whenever the server is started
     @PostConstruct
     public void init() throws IOException {
         ObjectMapper mapper = new ObjectMapper();
